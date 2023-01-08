@@ -31,4 +31,5 @@ else
 
 <p>@Html.ActionLink("Back to List of Students", "Index")</p>
 <p>@Html.ActionLink("Edit Student", "Edit")</p>
-<p>@Html.ActionLink("Add a Course", "AddCourse", new { id = Model</p>
+<p>@Html.ActionLink("Add a Course", "AddCourse", new { id = Model.StudentId })</p>
+<p>@Html.ActionLink("Remove Student", "Delete", new { id = Model.StudentId})</p>

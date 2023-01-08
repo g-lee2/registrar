@@ -15,5 +15,89 @@ namespace Registrar.Controllers
     {
       _db = db;
     }
+
+    public ActionResult Index()
+    {
+      return View(_db.Students.ToList());
+    }
+
+    public ActionResult Details(int id)
+    {
+      Student thisStudent = _db.Students.Include(student => student.JoinEntities)
+        .ThenInclude(join => join.Student).FirstOrDefault(student => student.StudentId == id);
+      return View(thisStudent);
+    }
+
+    public ActionResult Create()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Student student)
+    {
+      _db.Students.Add(student);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    // public ActionResult AddCourse(int id)
+    // {
+    //   Student thisStudent = _db.Students.FirstOrDefault(students => students.StudentId == id);
+    //   ViewBag.StudentId = new SelectList(_db.Students, "StudentId", "Description");
+    //   return View(thisStudent);
+    // }
+
+    // [HttpPost]
+    // public ActionResult AddCourse(Student student, int courseId)
+    // {
+    //   #nullable enable
+    //   StudentCourse? joinEntity = _db.StudentCourses.FirstOrDefault(join.CourseId == courseId && join.CourseId == course.CourseId);
+    //   #nullable disable
+    //   if (joinEntity == null && courseId != 0)
+    //   {
+    //     _db.CourseTags.Add(new StudentCourses() { StudentId = studentId, })
+    //     _db.SaveChanges
+    //   }
+    //   return RedirectToAction("Details", new { id = student.StudentId})
+    // }
+
+    public ActionResult Edit(int id)
+    {
+      Student thisStudent = _db.Students.FirstOrDefault(students => students.StudentId == id);
+      return View(thisStudent);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Student student)
+    {
+      _db.Students.Update(student);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Delete(int id)
+    {
+      Student thisStudent = _db.Students.FirstOrDefault(students => students.StudentId == id);
+      return View(thisStudent);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      Student thisStudent = _db.Students.FirstOrDefault(students => students.StudentId == id);
+      _db.Students.Remove(thisStudent);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult DeleteJoin(int joinId)
+    {
+      StudentCourse joinEntry = _db.StudentCourses.FirstOrDefault(entry => entry.StudentCourseId == joinId);
+      _db.StudentCourses.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }
