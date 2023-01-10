@@ -4,6 +4,7 @@
 
 @model Registrar.Models.Student
 
+
 <h4>Add a new Student</h4>
 
 @using (Html.BeginForm())
@@ -12,9 +13,6 @@
   @Html.TextBoxFor(model => model.StudentName)
   @Html.Label("DateOfEnrollment", "Date of Enrollment")
   @Html.TextBoxFor(model => model.DateOfEnrollment)
-
-  @Html.Label("CourseName", "Course Name")
-  @Html.DropDownList("CourseId")
 
   <input type="submit" value="Add a new Student" class="btn btn-default" />
 }

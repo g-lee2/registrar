@@ -20,7 +20,7 @@ else
     @foreach(StudentCourse join in Model.JoinEntities)
     {
       <li>Course: @join.Course.CourseName</li>
-      @using (Html.BeginForm("DeleteJoin", "Student"))
+      @using (Html.BeginForm("DeleteJoin", "Students"))
       {
         @Html.Hidden("joinId", @join.StudentCourseId)
         <input type="submit" value="Delete"/>

@@ -23,8 +23,10 @@ namespace Registrar.Controllers
 
     public ActionResult Details(int id)
     {
-      Student thisStudent = _db.Students.Include(student => student.JoinEntities)
-        .ThenInclude(join => join.Student).FirstOrDefault(student => student.StudentId == id);
+      Student thisStudent = _db.Students
+      .Include(student => student.JoinEntities)
+        .ThenInclude(join => join.Course)
+        .FirstOrDefault(student => student.StudentId == id);
       return View(thisStudent);
     }
 
