@@ -2,14 +2,36 @@
   Layout = "_Layout";
 }
 
-@model Registrar.Models.Course;
+@using Registrar.Models
+@model Registrar.Models.Course
 
 <h2>Course Details</h2>
 
 <h3>Course Name: @Html.DisplayFor(model => model.CourseName)</h3>
 <h3>Course Number: @Html.DisplayFor(model => model.CourseNumber)</h3>
 
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This Course does not have any students yet</p>
+}
+else
+{
+  <h4>Students enrolled in this course:</h4>
+  <ul>
+    @foreach(StudentCourse join in Model.JoinEntities)
+    {
+      <li>Student: @join.Student.StudentName</li>
+      @using (Html.BeginForm("DeleteJoin", "Courses"))
+      {
+        @Html.Hidden("joinId", @join.StudentCourseId)
+        <input type="submit" value="Delete"/>
+      }
+    }
+  </ul>
+}
+
 <p>@Html.ActionLink("Back to course list", "Index")</p>
+<p>@Html.ActionLink("Add a Student", "AddStudent", new { id = Model.CourseId })</p>
 <p>@Html.ActionLink("Edit Course", "Edit", new { id = Model.CourseId})</p>
 <p>@Html.ActionLink("Delete Course", "Delete", new { id = Model.CourseId})</p>
 
